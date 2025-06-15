@@ -24,6 +24,8 @@ const container          = document.querySelector('.container');
 const growthPointsEl     = document.getElementById('growth-points');
 const growthOkEl         = document.getElementById('growth-ok');
 const growthBerEl        = document.getElementById('growth-ber');
+const lineChartCanvas    = document.getElementById('calendar-line-chart');
+let lineChart;
 
 const dayTooltip = document.createElement('div');
 dayTooltip.className = 'day-tooltip';
@@ -105,6 +107,8 @@ function updateSummary(year,month){
   if(growthPointsEl) growthPointsEl.textContent=g.pointsDiff.toFixed(2);
   if(growthOkEl) growthOkEl.textContent=g.totalOK.toFixed(2);
   if(growthBerEl) growthBerEl.textContent=g.totalBER.toFixed(2);
+
+  updateLineChart(year, month);
 }
 
 /* ==== Calendar render (original logic + map save) ==== */
@@ -214,6 +218,41 @@ function calculateGrowthStats(year, month){
     ber+=+data.ber||0;
   }
   return {pointsDiff:diff,totalOK:ok,totalBER:ber};
+}
+
+function updateLineChart(year, month){
+  if(!lineChartCanvas) return;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const labels = [];
+  const berData = [];
+  const okData = [];
+  const pointsData = [];
+  for(let d=1; d<=daysInMonth; d++){
+    const key = formatDate(new Date(year, month, d));
+    const data = calendarData[key] || {points:0, ok:0, ber:0};
+    labels.push(String(d));
+    berData.push(+data.ber || 0);
+    okData.push(+data.ok || 0);
+    pointsData.push(+data.points || 0);
+  }
+  if(lineChart) lineChart.destroy();
+  lineChart = new Chart(lineChartCanvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'BER', data: berData, borderColor: '#ff3b30', tension: 0.2, fill: false },
+        { label: 'OK', data: okData, borderColor: '#34c759', tension: 0.2, fill: false },
+        { label: 'Points', data: pointsData, borderColor: '#0a84ff', tension: 0.2, fill: false }
+      ]
+    },
+    options: {
+      responsive: true,
+      animation: { duration: 700 },
+      scales: { y: { beginAtZero: true } },
+      plugins: { legend: { labels: { color: '#F5F5F7' } } }
+    }
+  });
 }
 
 function handleMouseMove(e) {
