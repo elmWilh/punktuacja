@@ -245,36 +245,50 @@ input[type="checkbox"]:checked::after {
 }
 
 .macos-btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: var(--radius);
-  background: var(--button-bg);
-  color: var(--button-text);
+  --glow: 0;
+  position: relative;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--button-bg);
+  background: transparent;
+  color: var(--button-bg);
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.3s ease, opacity 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 4px var(--shadow-color);
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: none;
   margin-bottom: 10px;
 }
 
+.macos-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  border: 2px solid rgba(10, 132, 255, var(--glow));
+  box-shadow: 0 0 8px rgba(10, 132, 255, var(--glow));
+  opacity: var(--glow);
+  transition: opacity 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+}
+
 .macos-btn:hover {
-  background: var(--button-hover-bg);
-  opacity: 0.9;
-  box-shadow: 0 3px 6px var(--shadow-color);
+  background: var(--button-bg);
+  color: var(--button-text);
+  box-shadow: 0 0 6px rgba(10, 132, 255, 0.4);
 }
 
 .macos-btn:active {
-  opacity: 0.7;
-  transition: opacity 0.1s ease;
+  transform: translateY(1px);
 }
 
 .macos-btn.secondary {
-  background: #5a5a5a;
+  border-color: #5a5a5a;
+  color: #5a5a5a;
 }
 
 .macos-btn.secondary:hover {
-  background: #7f7f7f;
-  opacity: 0.9;
+  background: #5a5a5a;
+  color: #fff;
 }
 
 label {
@@ -542,17 +556,19 @@ label:hover {
 }
 
 .macos-btn.small-gray {
-  background: #5a5a5a;
+  background: transparent;
+  border: 1px solid #5a5a5a;
+  color: #5a5a5a;
   font-size: 0.8rem;
-  padding: 5px 10px;
+  padding: 4px 8px;
   margin-bottom: 10px;
-  transition: background 0.3s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .macos-btn.small-gray:hover {
-  background: #7f7f7f;
-  opacity: 0.9;
-  box-shadow: 0 3px 6px var(--shadow-color);
+  background: #5a5a5a;
+  color: #fff;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
 }
 
 #inventory-table-container.collapsed {
@@ -754,6 +770,7 @@ label:hover {
 }
 
 .day-card {
+  --glow: 0;
   background: rgba(28, 28, 30, 0.9);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -763,6 +780,18 @@ label:hover {
   position: relative;
   animation: cardAppear 0.3s ease-out;
   min-height: 120px;
+}
+
+.day-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  border: 2px solid rgba(10, 132, 255, var(--glow));
+  box-shadow: 0 0 8px rgba(10, 132, 255, var(--glow));
+  opacity: var(--glow);
+  transition: opacity 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
 }
 
 .day-card.empty {

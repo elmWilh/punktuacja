@@ -168,5 +168,41 @@ document.querySelectorAll('.top-nav ul li').forEach(tab=>{
 prevMonthBtn.addEventListener('click',()=>{ currentDate.setMonth(currentDate.getMonth()-1); debouncedGenerateCalendar(); });
 nextMonthBtn.addEventListener('click',()=>{ currentDate.setMonth(currentDate.getMonth()+1); debouncedGenerateCalendar(); });
 
+/* ==== Proximity glow on elements ==== */
+function applyProximityGlow(container, selector, range = 150) {
+  let frame;
+
+  function update(x, y) {
+    container.querySelectorAll(selector).forEach(el => {
+      if (el.classList && el.classList.contains('empty')) {
+        el.style.removeProperty('--glow');
+        return;
+      }
+      const r = el.getBoundingClientRect();
+      const dx = Math.max(r.left - x, 0, x - r.right);
+      const dy = Math.max(r.top - y, 0, y - r.bottom);
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const intensity = Math.max(0, 1 - dist / range);
+      el.style.setProperty('--glow', intensity.toFixed(2));
+    });
+  }
+
+  function handleMove(e) {
+    const { clientX, clientY } = e;
+    if (frame) cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => update(clientX, clientY));
+  }
+
+  function clear() {
+    container.querySelectorAll(selector).forEach(el => el.style.removeProperty('--glow'));
+  }
+
+  container.addEventListener('mousemove', handleMove);
+  container.addEventListener('mouseleave', clear);
+}
+
+applyProximityGlow(calendarGrid, '.day-card');
+applyProximityGlow(document.body, '.macos-btn', 120);
+
 /* ==== Initial draw ==== */
 generateCalendar();
