@@ -342,7 +342,10 @@
       editIcon.alt = 'Edit';
       editIcon.addEventListener('click', function(e) {
         e.stopPropagation();
-        alert(`Edit functionality for LPN ${lpn} is not implemented yet. Please edit in the Yield Table manually.`);
+        chrome.runtime.sendMessage({
+          action: 'openEditPopup',
+          lpn: lpn
+        });
       });
       container.appendChild(editIcon);
     }
