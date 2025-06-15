@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentDate = new Date();
   let calendarData = JSON.parse(localStorage.getItem('calendarData')) || {};
   let isUpdating = false;
+  let isEditing = false;
 
   window.updateTargetPeriod = updateTargetPeriod;
 
@@ -255,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   function updateTargetPeriod() {
-    if (isUpdating) {
+    if (isUpdating || isEditing) {
       return;
     }
     isUpdating = true;
@@ -484,6 +485,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     row.parentElement.replaceChild(editRow, row);
+    isEditing = true;
 
     const inputs = editRow.querySelectorAll("input");
     const select = editRow.querySelector("select");
@@ -492,6 +494,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     saveBtn.addEventListener("click", (e) => {
       e.stopPropagation();
+      isEditing = false;
       const lpnVal = normalizeLPN(inputs[0].value);
       const typeVal = select.value;
       const priceVal = parseFloat(inputs[1].value) || 0;
@@ -529,6 +532,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cancelBtn.addEventListener("click", (e) => {
       e.stopPropagation();
+      isEditing = false;
       renderActiveDay();
     });
   };
@@ -792,7 +796,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.addEventListener("calendarDataUpdated", () => {
-    if (!isUpdating) {
+    if (!isUpdating && !isEditing) {
       updateTargetPeriod();
     }
   });
