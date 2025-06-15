@@ -1,0 +1,29 @@
+:root {
+  --radius: 12px;
+  --background-color: #f2f2f7;
+  --container-bg: rgba(255, 255, 255, 0.8);
+  --primary-color: #007aff;
+  --secondary-color: #3c3c43;
+  --text-color: #1c1c1e;
+  --border-color: #d1d1d6;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Roboto", sans-serif;
+
+  --nav-bg: rgba(255, 255, 255, 0.8);
+  --nav-text: #1c1c1e;
+  --tab-active-bg: #007aff;
+
+  --button-bg: #007aff;
+  --button-text: #fff;
+  --button-hover-bg: #0051cc;
+
+  --input-bg: rgba(255, 255, 255, 0.9);
+  --input-border: #d1d1d6;
+  --input-text: #1c1c1e;
+}
+
+body {
+  background: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+}
