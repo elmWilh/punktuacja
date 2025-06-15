@@ -68,15 +68,6 @@ body {
   transition: max-width 0.5s var(--ease-in-out-apple);
 }
 
-.container::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
-}
-
 .container.calendar-active {
   max-width: 1600px;
 }
@@ -137,8 +128,6 @@ body {
 .mytable-container,
 .inventory-check-container,
 .calendar-container {
-  position: relative;
-  overflow: hidden;
   background: var(--container-bg);
   padding: 20px;
   border-radius: var(--radius);
@@ -146,20 +135,6 @@ body {
   backdrop-filter: blur(10px) saturate(140%);
   -webkit-backdrop-filter: blur(10px) saturate(140%);
   animation: fadeInScale 0.5s var(--ease-out-apple);
-}
-
-.settings-container::after,
-.inventory-container::after,
-.autoclicker-container::after,
-.mytable-container::after,
-.inventory-check-container::after,
-.calendar-container::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 @keyframes fadeInScale {
@@ -674,8 +649,6 @@ label:hover {
 }
 
 .edit-form {
-  position: relative;
-  overflow: hidden;
   display: flex;
   flex-wrap: nowrap;
   gap: 8px;
@@ -686,15 +659,6 @@ label:hover {
   backdrop-filter: blur(10px) saturate(140%);
   -webkit-backdrop-filter: blur(10px) saturate(140%);
   animation: formAppearWithBlur 0.4s ease-out forwards;
-}
-
-.edit-form::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .edit-form input,
