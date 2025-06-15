@@ -817,7 +817,20 @@ document.addEventListener("DOMContentLoaded", () => {
     updateTargetPeriod();
     renderActiveDay();
     checkAllRecordsAgainstInventory();
+
+    const params = new URLSearchParams(window.location.search);
+    const editLpn = params.get('editLpn');
+    if (editLpn) {
+      const normalized = normalizeLPN(editLpn);
+      for (const [dayId, day] of Object.entries(data.days || {})) {
+        const record = day.records.find(r => normalizeLPN(r.lpn) === normalized);
+        if (record) {
+          activeDayId = dayId;
+          renderActiveDay();
+          editRecord(record.id);
+          break;
+        }
+      }
+    }
   });
 });
-
-const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

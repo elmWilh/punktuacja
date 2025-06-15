@@ -16,5 +16,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         chrome.tabs.create({ url: message.url, active: false });
       }
     });
+  } else if (message.action === 'openEditPopup' && message.lpn) {
+    const url = chrome.runtime.getURL('popup.html?editLpn=' + encodeURIComponent(message.lpn));
+    chrome.tabs.create({ url, active: true });
   }
 });
