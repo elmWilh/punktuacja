@@ -463,31 +463,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const record = data.days[activeDayId].records.find((r) => r.id === id);
     if (!record) return;
 
-    const editForm = document.createElement("div");
-    editForm.className = "edit-form";
-    editForm.style.cssText = `
-      display: flex; gap: 10px; padding: 10px;
-      border-radius: 8px; align-items: center; width: 100%;
-    `;
-    editForm.innerHTML = `
-      <input type="text" value="${record.lpn}" placeholder="LPN code" style="flex: 1; padding: 8px; border-radius: 4px; border: 1px solid #3A3A3C; color: #F5F5F7; background: transparent;" />
-      <select style="flex: 1; padding: 8px; border-radius: 4px; border: 1px solid #3A3A3C; color: #F5F5F7; background: transparent;">
-        <option value="OK" ${record.type === "OK" ? "selected" : ""}>OK</option>
-        <option value="BER" ${record.type === "BER" ? "selected" : ""}>BER</option>
-      </select>
-      <input type="number" value="${record.price}" placeholder="Price (€)" step="0.01" style="flex: 1; padding: 8px; border-radius: 4px; border: 1px solid #3A3A3C; color: #F5F5F7; background: transparent;" />
-      <input type="number" value="${record.qty}" placeholder="Qty (Punkty)" style="flex: 1; padding: 8px; border-radius: 4px; border: 1px solid #3A3A3C; color: #F5F5F7; background: transparent;" />
-      <input type="text" value="${record.comment || ""}" placeholder="Comment" style="flex: 1; padding: 8px; border-radius: 4px; border: 1px solid #3A3A3C; color: #F5F5F7; background: transparent;" />
-      <button class="macos-btn" style="padding: 8px 16px;">Save</button>
-      <button class="macos-btn secondary" style="padding: 8px 16px;">Cancel</button>
+    const row = elements.activeDay.tableBody.querySelector(`[data-id="${id}"]`).closest("tr");
+    if (!row) return;
+
+    const editRow = document.createElement("tr");
+    editRow.className = "edit-row";
+    editRow.innerHTML = `
+      <td><input type="text" value="${record.lpn}" placeholder="LPN code" style="width:100%; padding:8px; border-radius:4px; border:1px solid #3A3A3C; background:transparent; color:#F5F5F7;" /></td>
+      <td><select style="width:100%; padding:8px; border-radius:4px; border:1px solid #3A3A3C; background:transparent; color:#F5F5F7;">
+            <option value="OK" ${record.type === "OK" ? "selected" : ""}>OK</option>
+            <option value="BER" ${record.type === "BER" ? "selected" : ""}>BER</option>
+          </select></td>
+      <td><input type="number" value="${record.price}" step="0.01" style="width:100%; padding:8px; border-radius:4px; border:1px solid #3A3A3C; background:transparent; color:#F5F5F7;" /></td>
+      <td><input type="number" value="${record.qty}" style="width:100%; padding:8px; border-radius:4px; border:1px solid #3A3A3C; background:transparent; color:#F5F5F7;" /></td>
+      <td><input type="text" value="${record.comment || ""}" placeholder="Comment" style="width:100%; padding:8px; border-radius:4px; border:1px solid #3A3A3C; background:transparent; color:#F5F5F7;" /></td>
+      <td>
+        <button class="macos-btn stop-propagation save-btn" style="padding:8px 16px;">Save</button>
+        <button class="macos-btn secondary stop-propagation cancel-btn" style="padding:8px 16px;">Cancel</button>
+      </td>
     `;
 
-    const row = elements.activeDay.tableBody.querySelector(`[data-id="${id}"]`).parentElement.parentElement;
-    row.parentElement.replaceChild(editForm, row);
+    row.parentElement.replaceChild(editRow, row);
 
-    editForm.querySelector(".macos-btn:not(.secondary)").addEventListener("click", () => {
-      const inputs = editForm.querySelectorAll("input");
-      const select = editForm.querySelector("select");
+    const inputs = editRow.querySelectorAll("input");
+    const select = editRow.querySelector("select");
+    const saveBtn = editRow.querySelector(".save-btn");
+    const cancelBtn = editRow.querySelector(".cancel-btn");
+
+    saveBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
       const lpnVal = normalizeLPN(inputs[0].value);
       const typeVal = select.value;
       const priceVal = parseFloat(inputs[1].value) || 0;
@@ -523,7 +527,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    editForm.querySelector(".macos-btn.secondary").addEventListener("click", () => {
+    cancelBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
       renderActiveDay();
     });
   };
