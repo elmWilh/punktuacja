@@ -414,3 +414,21 @@ ul.label-list li {
 .auto-found-panel::-webkit-scrollbar-thumb:hover {
   background: var(--button-hover-bg);
 }
+
+.edit-row td {
+  padding: 6px 8px;
+}
+
+.edit-row input,
+.edit-row select {
+  width: 100%;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-color);
+}
+
+.edit-row button {
+  margin-left: 4px;
+}
