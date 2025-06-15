@@ -74,20 +74,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Update day stats display
   function updateDayStats() {
-    chrome.storage.local.get(["db_mytable", "activeDayId", "currentMonth"], (res) => {
-      const data = res.db_mytable || { months: {} };
+    chrome.storage.local.get(["db_mytable", "activeDayId"], (res) => {
+      const data = res.db_mytable || { days: {} };
       const activeDayId = res.activeDayId || "";
-      const currentMonth = res.currentMonth || "";
 
-      // Reset stats if no valid month or day is selected
-      if (!currentMonth || !activeDayId || !data.months[currentMonth] || !data.months[currentMonth].days[activeDayId]) {
+      // Reset stats if no valid day is selected
+      if (!activeDayId || !data.days[activeDayId]) {
         document.getElementById("day-qty").textContent = "0.00";
         document.getElementById("day-yield").textContent = "0.00%";
         return;
       }
 
-      // Get records for the active day in the current month
-      const records = data.months[currentMonth].days[activeDayId].records || [];
+      // Get records for the active day
+      const records = data.days[activeDayId].records || [];
       const stats = calcDayStats(records);
 
       // Update UI
@@ -101,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Listen for storage changes
   chrome.storage.onChanged.addListener((changes, area) => {
-    if (area === "local" && ("db_mytable" in changes || "activeDayId" in changes || "currentMonth" in changes)) {
+    if (area === "local" && ("db_mytable" in changes || "activeDayId" in changes)) {
       updateDayStats();
     }
   });
