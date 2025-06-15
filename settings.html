@@ -11,8 +11,8 @@
     <div class="container">
       <header class="top-nav">
         <ul>
-          <li class="tab" data-tab="settings">Settings</li>
-          <li class="tab" data-tab="inventory">Inventory</li>
+          <li class="tab" data-tab="settings" data-i18n="settings">Settings</li>
+          <li class="tab" data-tab="inventory" data-i18n="inventory">Inventory</li>
           <li class="tab" data-tab="mytable">MyTable</li>
           <li class="tab active" data-tab="calendar">Calendar</li>
           <li class="tab" data-tab="inventory-check">Проверка</li>
@@ -24,9 +24,9 @@
           <!-- SETTINGS PANEL -->
           <section id="settings-panel" class="panel">
             <div class="settings-container">
-              <h2>Settings</h2>
+              <h2 data-i18n="settings">Settings</h2>
               <div class="form-group">
-                <label for="language-select">Select language:</label>
+                <label for="language-select" data-i18n="selectLanguage">Select language:</label>
                 <select id="language-select">
                   <option value="ru">Russian</option>
                   <option value="en">English</option>
@@ -49,7 +49,7 @@
               <h2>Inventory</h2>
               <div class="panel-controls" style="margin-bottom: 10px;">
                 <label>
-                  Check mode:
+                  <span data-i18n="checkMode">Check mode:</span>
                   <input type="checkbox" id="check-mode" />
                 </label>
                 <input type="text" id="search-input" placeholder="Search..." />
@@ -57,7 +57,7 @@
               <div style="margin-bottom: 10px;">
                 <button id="backup-btn" class="macos-btn">Backup Inventory</button>
                 <button id="import-backup-btn" class="macos-btn">Import Backup</button>
-                <button id="download-btn" class="macos-btn">Download Data</button>
+                <button id="download-btn" class="macos-btn" data-i18n="downloadButton">Download Data</button>
                 <button id="import-btn" class="macos-btn">Import Data</button>
                 <button id="delete-selected-btn" class="macos-btn">Delete Selected</button>
                 <label style="margin-left: 10px;">
@@ -82,14 +82,14 @@
               <button id="toggle-inventory-table-btn" class="macos-btn small-gray" style="display:none;">Expand</button>
               <h3>Add code</h3>
               <div style="margin-bottom: 10px;">
-                <input type="text" id="new-code-input" placeholder="Enter LPN code" />
+                <input type="text" id="new-code-input" placeholder="Enter LPN code" data-i18n-placeholder="inventoryInputPlaceholder" />
                 <input type="text" id="new-code-comment" placeholder="Comment" />
                 <select id="new-code-shelf"></select>
-                <button id="add-code-btn" class="macos-btn">Add</button>
+                <button id="add-code-btn" class="macos-btn" data-i18n="addButton">Add</button>
               </div>
               <h3>Scan code</h3>
               <div style="margin-bottom: 10px;">
-                <input type="text" id="scanner-input" placeholder="Scan or Enter LPN code" />
+                <input type="text" id="scanner-input" placeholder="Scan or Enter LPN code" data-i18n-placeholder="inventoryInputPlaceholder" />
                 <button id="add-scanned-btn" class="macos-btn">Add scanned</button>
               </div>
               <h3>Add shelf</h3>
@@ -101,7 +101,7 @@
                 <h4>Groups of errors</h4>
                 <div class="form-group-error">
                   <label for="error-codes-textarea">Enter codes (each on new line):</label>
-                  <textarea id="error-codes-textarea" rows="4" cols="50" placeholder="LPNXXXXXX\nLPNYYYYYY\n..."></textarea>
+                  <textarea id="error-codes-textarea" rows="4" cols="50" placeholder="LPNXXXXXX\nLPNYYYYYY\n..." data-i18n-placeholder="errorCodesPlaceholder"></textarea>
                 </div>
                 <div class="form-group-error">
                   <label for="error-reason-input">Reason (Group Name):</label>

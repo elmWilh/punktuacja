@@ -1,17 +1,27 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let lang = localStorage.getItem("appLanguage") || "ru";
-    applyTranslations(lang);
+  let lang = localStorage.getItem("appLanguage") || "ru";
+  applyTranslations(lang);
+  const languageSelect = document.getElementById("language-select");
+  if (languageSelect) {
+    languageSelect.value = lang;
+    languageSelect.addEventListener("change", function () {
+      lang = languageSelect.value;
+      localStorage.setItem("appLanguage", lang);
+      applyTranslations(lang);
+    });
+  }
+});
+
+window.addEventListener("storage", (e) => {
+  if (e.key === "appLanguage") {
+    const newLang = e.newValue || "ru";
+    applyTranslations(newLang);
     const languageSelect = document.getElementById("language-select");
-    if (languageSelect) {
-      languageSelect.value = lang;
-      languageSelect.addEventListener("change", function () {
-        lang = languageSelect.value;
-        localStorage.setItem("appLanguage", lang);
-        applyTranslations(lang);
-      });
-    }
-  });
-  function applyTranslations(lang) {
+    if (languageSelect) languageSelect.value = newLang;
+  }
+});
+function applyTranslations(lang) {
+  document.documentElement.lang = lang;
     const translations = {
       ru: {
         appTitle: "Punktuacija 0.1",
@@ -101,11 +111,13 @@ document.addEventListener("DOMContentLoaded", function () {
         el.textContent = t[key];
       }
     });
-    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
       const key = el.getAttribute("data-i18n-placeholder");
       if (t[key]) {
         el.placeholder = t[key];
       }
     });
   }
-  
+
+window.applyTranslations = applyTranslations;
+ 

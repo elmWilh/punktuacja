@@ -35,7 +35,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const lang = document.getElementById("language-select");
     const frost = document.getElementById("frosted-effect");
     const autoC = document.getElementById("autoclicker");
-    if (s.language && lang) lang.value = s.language;
+    if (s.language && lang) {
+      lang.value = s.language;
+      localStorage.setItem("appLanguage", s.language);
+      if (typeof applyTranslations === "function") {
+        applyTranslations(s.language);
+      }
+    }
     if (typeof s.frosted !== "undefined" && frost) {
       frost.checked = s.frosted;
       document.body.classList.toggle("frosted", s.frosted);
@@ -56,6 +62,10 @@ document.addEventListener("DOMContentLoaded", function () {
       autoClickerText: autoC ? autoC.value.trim() : "",
     };
     saveSettings(updated);
+    localStorage.setItem("appLanguage", updated.language);
+    if (typeof applyTranslations === "function") {
+      applyTranslations(updated.language);
+    }
     document.body.classList.toggle("frosted", updated.frosted);
     showNotification("Settings saved");
   });
