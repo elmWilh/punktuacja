@@ -67,7 +67,8 @@ document.addEventListener("DOMContentLoaded", function () {
       applyTranslations(updated.language);
     }
     document.body.classList.toggle("frosted", updated.frosted);
-    showNotification("Settings saved");
+    const msg = typeof t === 'function' ? t('settingsSaved') : 'Settings saved';
+    showNotification(msg);
   });
 
   window.showNotification = function (msg) {
@@ -112,7 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
       };
       saveAutoClickerSettings(settingsObj);
       if (window.showNotification) {
-        window.showNotification("Autoclicker settings saved");
+        const msg = typeof t === 'function' ? t('autoclickerSettingsSaved') : 'Autoclicker settings saved';
+        window.showNotification(msg);
       }
     });
   }
@@ -127,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (rowCount > 20) {
       toggleBtn.style.display = "inline-block";
       tableContainer.classList.add("collapsed");
-      toggleBtn.textContent = "Expand";
+      toggleBtn.textContent = typeof t === 'function' ? t('expand') : 'Expand';
     } else {
       toggleBtn.style.display = "none";
       tableContainer.classList.remove("collapsed");
@@ -138,8 +140,8 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleBtn.addEventListener("click", () => {
       tableContainer.classList.toggle("collapsed");
       toggleBtn.textContent = tableContainer.classList.contains("collapsed")
-        ? "Expand"
-        : "Collapse";
+        ? (typeof t === 'function' ? t('expand') : 'Expand')
+        : (typeof t === 'function' ? t('collapse') : 'Collapse');
     });
   }
 
