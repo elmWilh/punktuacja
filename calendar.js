@@ -168,5 +168,35 @@ document.querySelectorAll('.top-nav ul li').forEach(tab=>{
 prevMonthBtn.addEventListener('click',()=>{ currentDate.setMonth(currentDate.getMonth()-1); debouncedGenerateCalendar(); });
 nextMonthBtn.addEventListener('click',()=>{ currentDate.setMonth(currentDate.getMonth()+1); debouncedGenerateCalendar(); });
 
+/* ==== Glow effect on cards ==== */
+const GLOW_RANGE = 150;
+let glowFrame;
+
+function updateGlow(x, y) {
+  const cards = calendarGrid.querySelectorAll('.day-card');
+  cards.forEach(card => {
+    if(card.classList.contains('empty')) { card.style.removeProperty('--glow'); return; }
+    const r = card.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const dist = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2);
+    const intensity = Math.max(0, 1 - dist / GLOW_RANGE);
+    card.style.setProperty('--glow', intensity.toFixed(2));
+  });
+}
+
+function handleMouseMove(e) {
+  const { clientX, clientY } = e;
+  if (glowFrame) cancelAnimationFrame(glowFrame);
+  glowFrame = requestAnimationFrame(() => updateGlow(clientX, clientY));
+}
+
+function clearGlow() {
+  calendarGrid.querySelectorAll('.day-card').forEach(card => card.style.removeProperty('--glow'));
+}
+
+calendarGrid.addEventListener('mousemove', handleMouseMove);
+calendarGrid.addEventListener('mouseleave', clearGlow);
+
 /* ==== Initial draw ==== */
 generateCalendar();
