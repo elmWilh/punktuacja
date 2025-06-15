@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
   function performSearch() {
     const query = searchInput.value.trim().toLowerCase();
     if (!query) {
-      resultsDiv.innerHTML = '<p>Enter any info to search.</p>';
+      const msg = typeof t === 'function' ? t('enterInfo') : 'Enter any info to search.';
+      resultsDiv.innerHTML = `<p>${msg}</p>`;
       return;
     }
     const filtered = csvData.filter(row => {
@@ -33,7 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
              row.points.toLowerCase().includes(query);
     });
     if (filtered.length === 0) {
-      resultsDiv.innerHTML = '<p>Nothing found.</p>';
+      const msg = typeof t === 'function' ? t('nothingFound') : 'Nothing found.';
+      resultsDiv.innerHTML = `<p>${msg}</p>`;
     } else {
       let html = '<ul>';
       filtered.forEach(row => {

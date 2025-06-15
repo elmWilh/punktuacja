@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     checkShelfSelect.innerHTML = "";
     const optNone = document.createElement("option");
     optNone.value = "";
-    optNone.textContent = "No Shelf";
+    optNone.textContent = typeof t === 'function' ? t('noShelf') : "No Shelf";
     newCodeShelf.appendChild(optNone);
     shelves.forEach((shelf) => {
       const opt1 = document.createElement("option");
@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
     menu.style.left = e.pageX + "px";
     menu.style.top = e.pageY + "px";
     const editOption = document.createElement("div");
-    editOption.textContent = "Edit comment";
+    editOption.textContent = typeof t === 'function' ? t('editComment') : "Edit comment";
     editOption.className = "context-menu-option";
     editOption.addEventListener("click", (ev) => {
       ev.stopPropagation();
@@ -272,7 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     menu.appendChild(editOption);
     const changeShelfOption = document.createElement("div");
-    changeShelfOption.textContent = "Change shelf";
+    changeShelfOption.textContent = typeof t === 'function' ? t('changeShelf') : "Change shelf";
     changeShelfOption.className = "context-menu-option";
     changeShelfOption.addEventListener("click", (ev) => {
       ev.stopPropagation();
@@ -281,12 +281,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     menu.appendChild(changeShelfOption);
     const deleteOption = document.createElement("div");
-    deleteOption.textContent = "Delete product";
+    deleteOption.textContent = typeof t === 'function' ? t('deleteProduct') : "Delete product";
     deleteOption.className = "context-menu-option";
     deleteOption.addEventListener("click", (ev) => {
       ev.stopPropagation();
       hideContextMenu();
-      if (confirm("Are you sure you want to delete this product?")) {
+      const confirmMsg = typeof t === 'function' ? t('confirmDelete') : "Are you sure you want to delete this product?";
+      if (confirm(confirmMsg)) {
         const idx = arr.findIndex((x) => x.code === item.code);
         if (idx !== -1) {
           arr.splice(idx, 1);
@@ -321,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnContainer = document.createElement("div");
     btnContainer.className = "context-btn-container";
     const saveBtn = document.createElement("button");
-    saveBtn.textContent = "Save";
+    saveBtn.textContent = typeof t === 'function' ? t('save') : "Save";
     saveBtn.className = "context-menu-button";
     saveBtn.addEventListener("click", () => {
       item.comment = input.value.trim();
@@ -332,7 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     btnContainer.appendChild(saveBtn);
     const cancelBtn = document.createElement("button");
-    cancelBtn.textContent = "Cancel";
+    cancelBtn.textContent = typeof t === 'function' ? t('cancel') : "Cancel";
     cancelBtn.className = "context-menu-button";
     cancelBtn.addEventListener("click", (ev) => {
       ev.stopPropagation();
@@ -359,12 +360,12 @@ document.addEventListener("DOMContentLoaded", () => {
       zIndex: "20000"
     });
     const title = document.createElement("h3");
-    title.textContent = "Change Shelf";
+    title.textContent = typeof t === 'function' ? t('changeShelf') : "Change Shelf";
     popup.appendChild(title);
     const select = document.createElement("select");
     const noShelfOpt = document.createElement("option");
     noShelfOpt.value = "";
-    noShelfOpt.textContent = "No Shelf";
+    noShelfOpt.textContent = typeof t === 'function' ? t('noShelf') : "No Shelf";
     select.appendChild(noShelfOpt);
     loadShelves().then((shelves) => {
       shelves.forEach((shelf) => {
@@ -379,7 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnContainer = document.createElement("div");
     btnContainer.style.marginTop = "10px";
     const saveBtn = document.createElement("button");
-    saveBtn.textContent = "Save";
+    saveBtn.textContent = typeof t === 'function' ? t('save') : "Save";
     saveBtn.className = "macos-btn";
     saveBtn.addEventListener("click", async () => {
       item.shelf = select.value;
@@ -390,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     btnContainer.appendChild(saveBtn);
     const cancelBtn = document.createElement("button");
-    cancelBtn.textContent = "Cancel";
+    cancelBtn.textContent = typeof t === 'function' ? t('cancel') : "Cancel";
     cancelBtn.className = "macos-btn";
     cancelBtn.style.marginLeft = "10px";
     cancelBtn.addEventListener("click", () => {
@@ -699,7 +700,7 @@ document.addEventListener("DOMContentLoaded", () => {
       overflowY: "auto"
     });
     const title = document.createElement("h3");
-    title.textContent = "New codes detected";
+    title.textContent = typeof t === 'function' ? t('newCodesDetected') : "New codes detected";
     popup.appendChild(title);
     const form = document.createElement("form");
     newCodes.forEach((code) => {
@@ -709,7 +710,7 @@ document.addEventListener("DOMContentLoaded", () => {
       label.textContent = code;
       const input = document.createElement("input");
       input.type = "text";
-      input.placeholder = "Optional comment";
+      input.placeholder = typeof t === 'function' ? t('optionalComment') : "Optional comment";
       input.dataset.code = code;
       input.style.marginLeft = "10px";
       div.appendChild(label);
@@ -720,7 +721,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnContainer = document.createElement("div");
     btnContainer.style.marginTop = "10px";
     const saveBtn = document.createElement("button");
-    saveBtn.textContent = "Save new codes";
+    saveBtn.textContent = typeof t === 'function' ? t('saveNewCodes') : "Save new codes";
     saveBtn.className = "macos-btn";
     saveBtn.addEventListener("click", async (e) => {
       e.preventDefault();
@@ -741,13 +742,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     btnContainer.appendChild(saveBtn);
     const cancelBtn = document.createElement("button");
-    cancelBtn.textContent = "Cancel";
+    cancelBtn.textContent = typeof t === 'function' ? t('cancel') : "Cancel";
     cancelBtn.className = "macos-btn";
     cancelBtn.style.marginLeft = "10px";
     cancelBtn.addEventListener("click", (e) => {
       e.preventDefault();
       document.body.removeChild(popup);
-      showNotification("New code addition canceled");
+      const msg = typeof t === 'function' ? t('newCodeAdditionCanceled') : 'New code addition canceled';
+      showNotification(msg);
     });
     btnContainer.appendChild(cancelBtn);
     popup.appendChild(btnContainer);
