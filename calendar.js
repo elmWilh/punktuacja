@@ -21,6 +21,14 @@ const monthlyBerEl       = document.getElementById('monthly-ber');
 const monthlyYieldEl     = document.getElementById('monthly-yield');
 const estimatedSalaryEl  = document.getElementById('estimated-salary');
 const container          = document.querySelector('.container');
+const growthPointsEl     = document.getElementById('growth-points');
+const growthOkEl         = document.getElementById('growth-ok');
+const growthBerEl        = document.getElementById('growth-ber');
+
+const dayTooltip = document.createElement('div');
+dayTooltip.className = 'day-tooltip';
+dayTooltip.innerHTML = `<div class="bar-container"><div class="bar previous"></div><div class="bar current"></div></div><div class="tooltip-info"></div>`;
+document.body.appendChild(dayTooltip);
 
 /* ==== State ==== */
 let currentDate  = new Date();
@@ -92,6 +100,11 @@ function updateSummary(year,month){
   monthlyBerEl.textContent=s.totalBER;
   monthlyYieldEl.textContent=s.yieldPercentage;
   estimatedSalaryEl.textContent=`${s.estimatedSalary} PLN`;
+
+  const g=calculateGrowthStats(year,month);
+  if(growthPointsEl) growthPointsEl.textContent=g.pointsDiff.toFixed(2);
+  if(growthOkEl) growthOkEl.textContent=g.totalOK.toFixed(2);
+  if(growthBerEl) growthBerEl.textContent=g.totalBER.toFixed(2);
 }
 
 /* ==== Calendar render (original logic + map save) ==== */
@@ -142,6 +155,10 @@ function generateCalendar(){
         updateSummary(year,month);
       });
 
+      card.addEventListener('mouseenter',e=>showTooltip(e,key));
+      card.addEventListener('mousemove',moveTooltip);
+      card.addEventListener('mouseleave',hideTooltip);
+
       calendarGrid.appendChild(card); dayCardMap.set(key,card);
     }
     // trailing blanks
@@ -185,6 +202,20 @@ function updateGlow(x, y) {
   });
 }
 
+function calculateGrowthStats(year, month){
+  let prev=null, diff=0, ok=0, ber=0;
+  const days=new Date(year,month+1,0).getDate();
+  for(let d=1; d<=days; d++){
+    const key=formatDate(new Date(year,month,d));
+    const data=calendarData[key]||{points:0,ok:0,ber:0};
+    if(prev!==null) diff+=(+data.points||0)-prev;
+    prev=+data.points||0;
+    ok+=+data.ok||0;
+    ber+=+data.ber||0;
+  }
+  return {pointsDiff:diff,totalOK:ok,totalBER:ber};
+}
+
 function handleMouseMove(e) {
   const { clientX, clientY } = e;
   if (glowFrame) cancelAnimationFrame(glowFrame);
@@ -195,8 +226,39 @@ function clearGlow() {
   calendarGrid.querySelectorAll('.day-card').forEach(card => card.style.removeProperty('--glow'));
 }
 
+function getDayGrowth(key){
+  const date=new Date(key);
+  const prevKey=formatDate(new Date(date.getFullYear(),date.getMonth(),date.getDate()-1));
+  const prev=calendarData[prevKey]||{points:0};
+  const curr=calendarData[key]||{points:0};
+  return {prev:+prev.points||0,curr:+curr.points||0};
+}
+
+function showTooltip(e,key){
+  const {prev,curr}=getDayGrowth(key);
+  const max=Math.max(prev,curr,dailyNorm);
+  const prevH=max?Math.min((prev/max)*100,100):0;
+  const currH=max?Math.min((curr/max)*100,100):0;
+  dayTooltip.querySelector('.bar.previous').style.height=prevH+'%';
+  dayTooltip.querySelector('.bar.current').style.height=currH+'%';
+  const delta=(curr-prev).toFixed(2);
+  dayTooltip.querySelector('.tooltip-info').textContent=`Δ ${delta}`;
+  moveTooltip(e);
+  dayTooltip.classList.add('visible');
+}
+
+function moveTooltip(e){
+  const {clientX,clientY}=e;
+  dayTooltip.style.left=window.pageXOffset+clientX+10+'px';
+  dayTooltip.style.top=window.pageYOffset+clientY-60+'px';
+}
+
+function hideTooltip(){
+  dayTooltip.classList.remove('visible');
+}
+
 calendarGrid.addEventListener('mousemove', handleMouseMove);
-calendarGrid.addEventListener('mouseleave', clearGlow);
+calendarGrid.addEventListener('mouseleave', () => { clearGlow(); hideTooltip(); });
 
 /* ==== Initial draw ==== */
 generateCalendar();
