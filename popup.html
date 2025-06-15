@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Punktuacja 0.5</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="popup-container">
+    <img src="images/logo.png" alt="Logo" class="logo-image" />
+    <div class="day-stats">
+      <span class="stat-label">Punkty:</span>
+      <span id="day-qty" class="stat-value">0</span>
+      <span class="stat-label">Yield:</span>
+      <span id="day-yield" class="stat-value">0%</span>
+    </div>
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Enter Category, or ASIN">
+      <button id="search-button">
+        <img src="images/search-icon.png" alt="Поиск" class="search-icon" />
+      </button>
+    </div>
+    <ul class="checkbox-list">
+      <li><label><input type="checkbox" id="autoClickerTRexCheckbox" /> Auto Clicker t-rex</label></li>
+      <li><label><input type="checkbox" id="autoEditCheckbox" /> Auto Edit</label></li>
+      <li><label><input type="checkbox" id="showProductInfoCheckbox" /> Show Product info</label></li>
+      <li><label><input type="checkbox" id="autoPickupCheckbox" /> Auto PickUp</label></li>
+    </ul>
+    <div id="results" class="results-container"></div>
+    <div class="settings-link">
+      <a href="settings.html" target="_blank">My Workstation</a>
+    </div>
+  </div>
+  <script src="settings.js"></script>
+  <script src="popup.js"></script>
+  <script src="content.js"></script>
+  <script src="yieldtable.js"></script>
+</body>
+</html>

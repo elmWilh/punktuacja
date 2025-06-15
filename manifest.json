@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Punktik",
+  "version": "0.9.1",
+  "description": "Preview Beta (Pre release)",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "windows",
+    "storage",
+    "notifications",
+    "cookies",
+    "management",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": "images/icon.png",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "128": "images/icon.png",
+    "16": "images/icon.png",
+    "48": "images/icon.png"
+  },
+  "externally_connectable": {
+    "matches": ["<all_urls>"]
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["data.csv", "coppy.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js", "settings.js", "popup.js"]
+    }
+  ]
+}

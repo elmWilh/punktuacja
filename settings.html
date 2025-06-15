@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Punctuation 0.2</title>
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+  <body>
+    <!-- Основное содержимое -->
+    <div class="container">
+      <header class="top-nav">
+        <ul>
+          <li class="tab" data-tab="settings">Settings</li>
+          <li class="tab" data-tab="inventory">Inventory</li>
+          <li class="tab" data-tab="mytable">MyTable</li>
+          <li class="tab active" data-tab="calendar">Calendar</li>
+          <li class="tab" data-tab="inventory-check">Проверка</li>
+        </ul>
+      </header>
+
+      <div class="main-wrapper">
+        <main class="tab-content">
+          <!-- SETTINGS PANEL -->
+          <section id="settings-panel" class="panel">
+            <div class="settings-container">
+              <h2>Settings</h2>
+              <div class="form-group">
+                <label for="language-select">Select language:</label>
+                <select id="language-select">
+                  <option value="ru">Russian</option>
+                  <option value="en">English</option>
+                  <option value="pl">Polish</option>
+                </select>
+              </div>
+              <div class="form-group frosted-group">
+                <label>
+                  <input type="checkbox" id="frosted-effect" />
+                  <span>Frosted glass effect</span>
+                </label>
+              </div>
+              <button id="save-settings" class="macos-btn">Save settings</button>
+            </div>
+          </section>
+
+          <!-- INVENTORY PANEL -->
+          <section id="inventory-panel" class="panel">
+            <div class="inventory-container">
+              <h2>Inventory</h2>
+              <div class="panel-controls" style="margin-bottom: 10px;">
+                <label>
+                  Check mode:
+                  <input type="checkbox" id="check-mode" />
+                </label>
+                <input type="text" id="search-input" placeholder="Search..." />
+              </div>
+              <div style="margin-bottom: 10px;">
+                <button id="backup-btn" class="macos-btn">Backup Inventory</button>
+                <button id="import-backup-btn" class="macos-btn">Import Backup</button>
+                <button id="download-btn" class="macos-btn">Download Data</button>
+                <button id="import-btn" class="macos-btn">Import Data</button>
+                <button id="delete-selected-btn" class="macos-btn">Delete Selected</button>
+                <label style="margin-left: 10px;">
+                  <input type="checkbox" id="select-all" />
+                  Select All
+                </label>
+              </div>
+              <div id="inventory-table-container" class="collapsed">
+                <table id="inventory-table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Code</th>
+                      <th>Comment</th>
+                      <th>Shelf</th>
+                      <th>Error</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <button id="toggle-inventory-table-btn" class="macos-btn small-gray" style="display:none;">Expand</button>
+              <h3>Add code</h3>
+              <div style="margin-bottom: 10px;">
+                <input type="text" id="new-code-input" placeholder="Enter LPN code" />
+                <input type="text" id="new-code-comment" placeholder="Comment" />
+                <select id="new-code-shelf"></select>
+                <button id="add-code-btn" class="macos-btn">Add</button>
+              </div>
+              <h3>Scan code</h3>
+              <div style="margin-bottom: 10px;">
+                <input type="text" id="scanner-input" placeholder="Scan or Enter LPN code" />
+                <button id="add-scanned-btn" class="macos-btn">Add scanned</button>
+              </div>
+              <h3>Add shelf</h3>
+              <div style="margin-bottom: 10px;">
+                <input type="text" id="new-shelf-input" placeholder="Shelf name" />
+                <button id="add-shelf-btn" class="macos-btn">Add shelf</button>
+              </div>
+              <div id="error-groups-section">
+                <h4>Groups of errors</h4>
+                <div class="form-group-error">
+                  <label for="error-codes-textarea">Enter codes (each on new line):</label>
+                  <textarea id="error-codes-textarea" rows="4" cols="50" placeholder="LPNXXXXXX\nLPNYYYYYY\n..."></textarea>
+                </div>
+                <div class="form-group-error">
+                  <label for="error-reason-input">Reason (Group Name):</label>
+                  <input type="text" id="error-reason-input" placeholder="Reason or short name" />
+                </div>
+                <div class="form-group-error">
+                  <label for="error-color-input">Group Color:</label>
+                  <input type="color" id="error-color-input" value="#ffcccc" />
+                </div>
+                <button id="add-error-group-btn" class="macos-btn">Add error group</button>
+                <ul id="error-groups-list" style="margin-top: 10px;"></ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- MYTABLE PANEL -->
+          <section id="mytable-panel" class="panel">
+            <div class="mytable-container wide-panel">
+              <h2>MyTable — Plan & Track Your Month</h2>
+
+              <!-- Month Planning Block -->
+              <div id="month-planning-block" class="day-block">
+                <h3>Target Period: <span id="target-month-period"></span></h3>
+                <div class="month-goal-form">
+                  <label for="month-goal-qty">Goal (Points):</label>
+                  <input type="number" id="month-goal-qty" value="220" min="1" />
+                  <span style="margin-left: 10px;">Working Days: <span id="month-working-days">0</span></span>
+                  <button id="set-month-goal-btn" class="macos-btn">Set Goal</button>
+                  <span id="daily-norm" style="margin-left: 10px;">Daily Norm: 0.00</span>
+                </div>
+                <!-- Working Days Selection -->
+                <div class="working-days-selector">
+                  <label for="working-days-select">Select Target Day for Report:</label>
+                  <select id="working-days-select">
+                    <option value="">Select a Target Day</option>
+                    <!-- Динамически заполняется JS -->
+                  </select>
+                </div>
+              </div>
+
+              <!-- Active Day Block -->
+              <div id="active-day-block" class="day-block">
+                <h3>Active Day: <span id="active-day-label">None</span></h3>
+                <div class="add-form">
+                  <input type="text" id="ad-lpn" placeholder="LPN code" />
+                  <select id="ad-type">
+                    <option value="OK">OK</option>
+                    <option value="BER">BER</option>
+                  </select>
+                  <input type="number" id="ad-price" placeholder="Price (€)" step="0.01" />
+                  <input type="number" id="ad-qty" placeholder="Qty (Punkty)" />
+                  <input type="text" id="ad-comment" placeholder="Comment" />
+                  <button id="ad-add-btn" class="macos-btn">Add</button>
+                </div>
+                <table id="active-day-table">
+                  <thead>
+                    <tr>
+                      <th>LPN</th>
+                      <th>Type</th>
+                      <th>Price</th>
+                      <th>Qty</th>
+                      <th>Comment</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="active-day-tbody"></tbody>
+                </table>
+                <div id="active-day-summary" class="day-summary-box">
+                  <span><strong>Products:</strong> <span id="ads-products-count">0</span></span>
+                  <span><strong>Total Qty:</strong> <span id="ads-total-qty">0</span></span>
+                  <span><strong>Booster:</strong> <span id="ads-booster">0</span></span>
+                  <span><strong>OK (€):</strong> <span id="ads-ok-sum">0</span></span>
+                  <span><strong>BER (€):</strong> <span id="ads-ber-sum">0</span></span>
+                  <span><strong>Yield:</strong> <span id="ads-yield">0</span>%</span>
+                </div>
+              </div>
+
+              <!-- Extra Controls -->
+              <div id="extra-controls" class="day-block">
+                <label>
+                  <input type="checkbox" id="school-mode-checkbox" />
+                  Enable School Mode
+                </label>
+                <button id="backup-table-btn" class="macos-btn">Backup Tables</button>
+                <button id="import-table-btn" class="macos-btn">Import Tables</button>
+                <input type="file" id="import-table-file-input" style="display:none;" accept=".json" />
+              </div>
+            </div>
+          </section>
+
+<!-- CALENDAR PANEL -->
+<section id="calendar-panel" class="panel active">
+  <div class="calendar-container wide-panel">
+    <h2>Calendar</h2>
+    <div class="calendar-navigation">
+      <button id="prev-month-btn" class="macos-btn">Previous</button>
+      <span id="current-month-year"></span>
+      <button id="next-month-btn" class="macos-btn">Next</button>
+    </div>
+    <div class="calendar-header">
+      <span>Mon</span>
+      <span>Tue</span>
+      <span>Wed</span>
+      <span>Thu</span>
+      <span>Fri</span>
+      <span>Sat</span>
+      <span>Sun</span>
+    </div>
+    <div id="calendar-grid" class="calendar-grid"></div>
+
+    <!-- New Monthly Stats Section (Outside Calendar Grid) -->
+    <div id="monthly-stats" class="day-summary-box" style="margin-top: 20px;">
+      <h3>Monthly Progress</h3>
+      <div style="margin-bottom: 10px;">
+        <span><strong>Progress to Norm:</strong> <span id="progress-points">0</span> / <span id="monthly-norm">0</span></span>
+      </div>
+      <div style="width: 100%; background-color: #3A3A3C; border-radius: 5px; height: 20px; overflow: hidden;">
+        <div id="progress-bar" style="width: 0%; height: 100%; background-color: #2BD154; transition: width 0.3s ease;"></div>
+      </div>
+      <div style="margin-top: 10px;">
+        <span><strong>OK (€):</strong> <span id="monthly-ok">0</span></span>
+        <span style="margin-left: 20px;"><strong>BER (€):</strong> <span id="monthly-ber">0</span></span>
+      </div>
+      <div style="margin-top: 10px;">
+        <span><strong>Estimated Salary:</strong> <span id="estimated-salary">3750 PLN</span></span>
+      </div>
+      <div style="margin-top: 10px;">
+        <span><strong>Monthly Yield:</strong> <span id="monthly-yield">0.00</span>%</span>
+    </div>
+
+    <!-- Existing Calendar Summary -->
+    <div id="calendar-summary" class="day-summary-box">
+      <span><strong>Target Period:</strong> <span id="target-period"></span></span>
+      <span><strong>Working Days:</strong> <span id="working-days">0</span></span>
+      <span><strong>Total Points:</strong> <span id="total-points">0</span></span>
+      <span><strong>Yield:</strong> <span id="calendar-yield">0</span>%</span>
+    </div>
+  </div>
+</section>
+
+          <!-- INVENTORY CHECK PANEL -->
+          <section id="inventory-check-panel" class="panel">
+            <div class="inventory-check-container">
+              <h3>Проверка инвентаризации</h3>
+              <div class="form-group">
+                <label for="last-inventory-date">Дата последней инвентаризации:</label>
+                <input type="date" id="last-inventory-date" />
+              </div>
+              <div style="margin-bottom: 15px;">
+                <label for="check-shelf-select">Select shelf:</label>
+                <select id="check-shelf-select"></select>
+              </div>
+              <div style="margin-bottom: 15px;">
+                <input type="text" id="check-code-input" placeholder="LPN code" />
+                <button id="add-check-code-btn" class="macos-btn">Add code</button>
+              </div>
+              <div style="margin-bottom: 15px;">
+                <button id="start-inventory-btn" class="macos-btn">Start Inventory</button>
+                <button id="end-inventory-btn" class="macos-btn" style="display: none;">Finish Inventory</button>
+              </div>
+            </div>
+          </section>
+        </main>
+        <aside class="notifications-panel" id="notifications-panel">
+          <h3>Уведомления</h3>
+          <div id="notifications-container"></div>
+        </aside>
+      </div>
+    </div>
+
+    <script src="welcome.js"></script>
+    <script src="inventory.js"></script>
+    <script src="settings.js"></script>
+    <script src="language.js"></script>
+    <script src="autoclicker_manager.js"></script>
+    <script src="popup.js"></script>
+    <script src="autoclicker_tasks.js"></script>
+    <script src="yeildtable.js"></script>
+    <script src="calendar.js"></script>
+  </body>
+</html>

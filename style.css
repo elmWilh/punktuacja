@@ -1,0 +1,379 @@
+:root {
+  --background-color: #1C1C1E;
+  --container-bg: rgba(28, 28, 30, 0.65);
+  --primary-color: #0A84FF;
+  --secondary-color: #8E8E93;
+  --text-color: #F5F5F7;
+  --border-color: #48484A;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Roboto", sans-serif;
+
+  --nav-bg: rgba(28, 28, 30, 0.8);
+  --nav-text: #F5F5F7;
+  --tab-active-bg: #0A84FF;
+
+  --button-bg: #0A84FF;
+  --button-text: #FFF;
+  --button-hover-bg: #007AFF;
+
+  --input-bg: rgba(44, 44, 46, 0.8);
+  --input-border: #48484A;
+  --input-text: #F5F5F7;
+}
+
+body {
+  background: var(--background-color); /* Сплошной фон для устранения просвечивания */
+  color: var(--text-color);
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  animation: fadeInBody 0.8s ease-out;
+  min-width: 300px;
+  min-height: 400px;
+  max-height: 600px;
+  overflow-y: auto; /* Добавляем скролл для body */
+}
+
+/* Скроллбар для body */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-track {
+  background: var(--input-bg);
+  border-radius: var(--radius);
+}
+body::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: var(--radius);
+}
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--button-hover-bg);
+}
+
+@keyframes fadeInBody {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.search-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* Чекбоксы */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--input-border);
+  border-radius: 6px;
+  background-color: var(--input-bg);
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+input[type="checkbox"]:hover {
+  border-color: var(--button-hover-bg);
+}
+input[type="checkbox"]:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 3px;
+  height: 7px;
+  border: solid var(--button-text);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+ul.label-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.label-list li {
+  padding: 6px 8px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  margin-bottom: 6px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+.logo-image {
+  display: block;
+  margin: 0 auto 20px;
+  max-width: 80%;
+  height: auto;
+}
+
+/* Общие стили для всплывающего контейнера */
+.popup-container {
+  padding: 30px;
+  background: linear-gradient(-45deg, #2C2C2E, #3A3A3C, #48484A, #2C2C2E);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  max-width: 500px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+}
+
+/* Стили для панели Day Punkty и Day Yield */
+.day-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr; /* Равномерное распределение */
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background: var(--input-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.stat-label {
+  color: var(--secondary-color);
+  font-weight: 500;
+}
+
+.stat-value {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* Список чекбоксов */
+.checkbox-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.checkbox-list li {
+  margin-bottom: 10px;
+}
+
+/* Контейнер для поиска */
+.search-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Поле ввода */
+#search-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  transition: border-color 0.3s ease;
+}
+
+#search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Кнопка поиска */
+#search-button {
+  padding: 10px 15px;
+  font-size: 1em;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#search-button:hover {
+  background-color: var(--button-hover-bg);
+  transform: scale(1.02);
+}
+
+/* Результаты поиска */
+.results-container {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+/* Скроллбар для результатов */
+.results-container::-webkit-scrollbar {
+  width: 8px;
+}
+.results-container::-webkit-scrollbar-track {
+  background: var(--input-bg);
+  border-radius: var(--radius);
+}
+.results-container::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: var(--radius);
+}
+.results-container::-webkit-scrollbar-thumb:hover {
+  background: var(--button-hover-bg);
+}
+
+/* Элементы списка результатов */
+#results ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#results li {
+  background-color: var(--input-bg);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  animation: fadeInItem 0.5s ease;
+}
+
+@keyframes fadeInItem {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Дополнительные классы */
+.points {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.settings-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.settings-link a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.3s ease;
+}
+
+.settings-link a:hover {
+  color: var(--button-hover-bg);
+}
+
+/* Стили для панели, создаваемой в content.js */
+.auto-found-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: var(--container-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px var(--shadow-color);
+  z-index: 9999;
+  padding: 15px;
+  color: var(--text-color);
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.auto-found-panel header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.auto-found-panel header .title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.auto-found-panel header .close-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.auto-found-panel header .close-btn:hover {
+  color: var(--primary-color);
+}
+
+.auto-found-panel .toggle-container {
+  margin-bottom: 15px;
+}
+
+.auto-found-panel .toggle-container label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.auto-found-panel .toggle-container label:hover {
+  color: var(--primary-color);
+}
+
+.auto-found-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.auto-found-panel ul li {
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Скроллбар в панели */
+.auto-found-panel::-webkit-scrollbar {
+  width: 8px;
+}
+.auto-found-panel::-webkit-scrollbar-track {
+  background: var(--input-bg);
+  border-radius: var(--radius);
+}
+.auto-found-panel::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: var(--radius);
+}
+.auto-found-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--button-hover-bg);
+}
