@@ -946,6 +946,53 @@ label:hover {
   display: none;
 }
 
+/* Tooltip for day growth chart */
+.day-tooltip {
+  position: absolute;
+  background: rgba(28, 28, 30, 0.95);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 1000;
+}
+
+.day-tooltip.visible {
+  opacity: 1;
+}
+
+.day-tooltip .bar-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  width: 50px;
+  height: 40px;
+}
+
+.day-tooltip .bar {
+  width: 20px;
+  height: 0;
+  transition: height 0.3s ease;
+  border-radius: 4px 4px 0 0;
+}
+
+.day-tooltip .bar.previous { background: #555; }
+.day-tooltip .bar.current  { background: var(--primary-color); }
+
+.day-tooltip .tooltip-info {
+  text-align: center;
+  font-size: 0.7rem;
+  margin-top: 4px;
+}
+
+#growth-panel {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
 @media (max-width: 768px) {
   .container {
     max-width: 100%;
