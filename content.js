@@ -507,7 +507,7 @@
           });
         }
 
-        if (pageText.includes("rapaired")) {
+        if (pageText.includes("repaired")) {
           foundRows = foundRows.map(row => {
             let pointsNum = parseFloat(row.points);
             if (!isNaN(pointsNum)) {
