@@ -365,33 +365,16 @@
 
     function sendToYieldTable(lpn, type, price, points) {
       chrome.storage.local.get(['db_mytable', 'activeDayId'], (res) => {
-        let mainData = res['db_mytable'];
-        let currentActiveDayId = res['activeDayId'];
-
-        if (!mainData || !mainData.months || Object.keys(mainData.months).length === 0) {
-          console.error("MyTable data not found or not initialized. Cannot add record from content.js.");
-          return;
-        }
+        const mainData = res['db_mytable'] || { days: {} };
+        const currentActiveDayId = res['activeDayId'];
 
         if (!currentActiveDayId) {
           console.warn("No active day selected in MyTable. Record not added from content.js.");
           return;
         }
 
-        let targetMonthKey = null;
-        let targetDayExists = false;
-
-        for (const monthKey in mainData.months) {
-          if (mainData.months[monthKey].days && mainData.months[monthKey].days[currentActiveDayId]) {
-            targetMonthKey = monthKey;
-            targetDayExists = true;
-            break;
-          }
-        }
-
-        if (!targetDayExists || !targetMonthKey) {
-          console.error(`Active day ${currentActiveDayId} not found within any month in MyTable data. Record not added from content.js.`);
-          return;
+        if (!mainData.days[currentActiveDayId]) {
+          mainData.days[currentActiveDayId] = { records: [], finished: false, date: currentActiveDayId };
         }
 
         const record = {
@@ -403,17 +386,16 @@
           comment: "Added automatically from ERSA"
         };
 
-        const allExistingRecords = Object.values(mainData.months)
-            .flatMap(month => month.days ? Object.values(month.days).flatMap(day => day.records) : []);
+        const allExistingRecords = Object.values(mainData.days).flatMap(day => day.records);
         if (allExistingRecords.some(r => r.lpn.toUpperCase() === record.lpn)) {
-            console.warn(`LPN ${record.lpn} already exists in MyTable. Record not added from content.js to avoid duplicate.`);
-            return;
+          console.warn(`LPN ${record.lpn} already exists in MyTable. Record not added from content.js to avoid duplicate.`);
+          return;
         }
 
-        mainData.months[targetMonthKey].days[currentActiveDayId].records.push(record);
+        mainData.days[currentActiveDayId].records.push(record);
 
         chrome.storage.local.set({ 'db_mytable': mainData }, () => {
-          console.log(`Record ${record.lpn} added to ${targetMonthKey}/${currentActiveDayId} from content.js by ERSA automation.`);
+          console.log(`Record ${record.lpn} added to ${currentActiveDayId} from content.js by ERSA automation.`);
         });
       });
     }
